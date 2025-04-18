@@ -1,2 +1,2 @@
-# IanChoi2464
+# UI-Final
 UI Design - Final Project
