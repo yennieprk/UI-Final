@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<script type="text/javascript" src="{{ url_for('static', filename = 'js/aboutpage.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+
+<div class="about-content">
+    <h1>What is Gugak?</h1>
+
+    <div class="video-container">
+        <iframe
+            id="gugakVideo"
+            width="800"
+            height="450"
+            src="https://www.youtube.com/embed/2Zn2LXE-yMk?start=5690&end=5720"
+            title="Korean Traditional Music Performance"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+        </iframe>
+    </div>
+
+    <div class="gugak-description">
+        <p>"Gugak" (국악), meaning "national music" in Korean, refers to traditional Korean music and its related art forms—including songs, dances, and ceremonial performances. In this experience, we'll focus on traditional Korean instruments used in Gugak.</p>
+        <p>Head over to the Learn section to explore each instrument one by one. Once you're ready, test your knowledge in the Quiz section!</p>
+    </div>
+
+    <a href="/learn" class="learn-button">Start Learning</a>
+</div>
+{% endblock %}

@@ -1,0 +1,281 @@
+.learn-content {
+    padding: 1rem 1rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: calc(100vh - 100px);
+}
+
+.learn-content h1 {
+    text-align: center;
+    margin-bottom: 3rem;
+    color: #c41e3a; /* Korean red color */
+    font-size: 2rem;
+}
+
+.instruments-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 1rem auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.instruments-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(250px, 1fr));
+    grid-auto-rows: 250px;
+    gap: 2rem 4rem;
+    width: 100%;
+    padding: 2rem;
+    justify-content: center;
+    align-content: start;
+}
+
+.instrument-item {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    padding: 1.5rem;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.instrument-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.instrument-item:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Remove the image scale on hover to maintain consistency */
+.instrument-item:hover img {
+    transform: none;
+}
+
+.instrument-detail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.detail-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 800px;
+    width: 90%;
+    position: relative;
+    display: flex;
+    gap: 2rem;
+}
+
+.detail-image {
+    width: 300px;
+    height: 300px;
+    object-fit: contain;
+}
+
+.detail-info {
+    flex: 1;
+    text-align: center;
+}
+
+.close-detail {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.custom-progress-container {
+    margin-top: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    max-width: 800px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1rem;
+    position: relative;
+}
+
+.custom-progress {
+    flex: 1;
+    height: 8px;
+    background: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid #dee2e6;
+    position: relative;
+}
+
+.custom-progress-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: #c41e3a;
+    transition: width 0.3s ease;
+    width: 0;
+}
+
+.progress-text, .progress-percentage {
+    font-size: 0.9rem;
+    color: #6c757d;
+    min-width: 45px;
+    text-align: right;
+}
+
+.name-sound-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.instrument-name {
+    margin: 0;
+    color: #333;
+    font-size: 1.8rem;
+}
+
+.instrument-description {
+    text-align: left;
+    color: #666;
+    line-height: 1.6;
+    margin-top: 1rem;
+}
+
+.play-sound {
+    width: 30px;
+    height: 30px;
+    background: url('https://static.vecteezy.com/system/resources/previews/003/611/805/non_2x/sound-speaker-icon-on-white-background-free-vector.jpg') no-repeat center;
+    background-size: contain;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    padding: 0;
+    opacity: 0.8;
+}
+
+.play-sound:hover {
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+.detail-content img {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    background: #fff;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+/* Remove responsive adjustments that were causing inconsistency */
+@media (max-width: 1200px) {
+    .instrument-item {
+        flex: 0 0 120px; /* Keep consistent size */
+    }
+}
+
+@media (max-width: 768px) {
+    .instrument-item {
+        flex: 0 0 120px; /* Keep consistent size */
+    }
+    
+    .detail-content {
+        flex-direction: column;
+    }
+    
+    .detail-image {
+        width: 100%;
+    }
+}
+
+.quiz-popup {
+    position: absolute;
+    bottom: calc(100% + 20px);
+    right: 50%;
+    transform: translateX(50%);
+    background: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    min-width: 250px;
+}
+
+.quiz-popup::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid white;
+}
+
+.quiz-popup.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(50%) translateY(0);
+}
+
+.quiz-popup-content {
+    text-align: center;
+}
+
+.quiz-popup-content p {
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.quiz-button {
+    display: inline-block;
+    padding: 0.5rem 2rem;
+    background: #c41e3a;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.quiz-button:hover {
+    background: #c41e3a;
+    color: white;
+    text-decoration: none;
+} 

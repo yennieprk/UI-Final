@@ -1,0 +1,129 @@
+body {
+    background-color: white;
+}
+
+.navbar {
+    padding: 1rem 0;
+    border-bottom: 1px solid #eee;
+    background-color: white;
+}
+
+.navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    max-height: 50px;
+    width: auto;
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.nav-link-custom {
+    display: inline-block;
+    padding: 0.5rem 2rem;
+    text-decoration: none;
+    color: #333;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+}
+
+.nav-link-custom.active {
+    background-color: #e9ecef;
+    color: #000;
+}
+
+.nav-link-custom:hover {
+    background-color: #e9ecef;
+    color: #000;
+    text-decoration: none;
+}
+
+
+.main-content {
+    padding-top: 2rem;
+}
+
+/* Homepage Styles */
+.home-container {
+    min-height: calc(100vh - 100px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.home-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    max-width: 600px;
+    width: 100%;
+}
+
+.home-logo {
+    width: 100%;
+    text-align: center;
+}
+
+.home-logo img {
+    max-width: 600px;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 2rem;
+}
+
+.about-description {
+    margin-bottom: 3rem;
+    font-size: 1.2rem;
+    color: #333;
+    line-height: 1.6;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.about-description p {
+    margin: 0;
+    display: inline-block;
+}
+
+.start-button {
+    display: inline-block;
+    padding: 1rem 3rem;
+    font-size: 1.25rem;
+    color: white;
+    background-color: #c41e3a;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.start-button:hover {
+    background-color: #a01830;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    color: white;
+    text-decoration: none;
+}
+
+/* Hide only the navigation logo on homepage */
+body:has(.home-container) .navbar .logo {
+    display: none;
+}

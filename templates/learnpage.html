@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/learnpage.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/learn.css') }}">
+
+
+<div class="learn-content">
+    <h1>Korean Traditional Musical Instruments</h1>
+
+    <div class="instruments-container">
+        <div class="instruments-grid">
+            <!-- Only include the three instruments we have images for -->
+            <div class="instrument-item" data-instrument="haegeum">
+                <img src="https://lh3.googleusercontent.com/proxy/s8eoAEHxwqlj5peqRHCzm33iLgYYkSGGwz-3M7LWoINsjVO-Y6LG4YFX6VFUvFdLZJR1WDpefU5mNjGHJpQZ3d78dsB7AlzXHjLy5AwyxPmu9YmRqAfVeg"
+                     alt="Haegeum">
+            </div>
+            <div class="instrument-item" data-instrument="gayageum">
+                <img src="https://designlifemica.weebly.com/uploads/6/4/7/5/64757185/1694964892_orig.gif"
+                     alt="Gayageum">
+            </div>
+            <div class="instrument-item" data-instrument="janggu">
+                <img src="https://t3.ftcdn.net/jpg/11/08/49/66/360_F_1108496624_6J2WQ2bv0p0hrYXkhFQwDMcWwB12kmuA.jpg"
+                     alt="Janggu">
+            </div>
+            <div class="instrument-item" data-instrument="piri">
+                <img src="https://i.pinimg.com/474x/92/dd/81/92dd81d9ec30e416e3945d8fe4d0f3b4.jpg"
+                     alt="Piri">
+            </div>
+            <div class="instrument-item" data-instrument="daegeum">
+                <img src="https://organology.net/storage/2024/07/Daegeum-6.jpeg"
+                     alt="Daegeum">
+            </div>
+            <div class="instrument-item" data-instrument="geomungo">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDEIJNzk4jomaiaPoANwSoQVhvLhpezOgLsg&s"
+                     alt="Geomungo">
+            </div>
+            <div class="instrument-item" data-instrument="jing">
+                <img src="https://i.pinimg.com/474x/09/c3/05/09c305a19673c1344eb337a2813d043d.jpg"
+                     alt="Jing">
+            </div>
+            <div class="instrument-item" data-instrument="kkwaenggwari">
+                <img src="https://i.pinimg.com/1200x/76/ff/2f/76ff2fdb271fa6a8fff972070a36d569.jpg"
+                     alt="Kkwaenggwari">
+            </div>
+        </div>
+
+        <div class="instrument-detail">
+            <div class="detail-content">
+                <img src="" alt="" class="detail-image">
+                <div class="detail-info">
+                    <div class="name-sound-container">
+                        <h2 class="instrument-name"></h2>
+                        <button class="play-sound"></button>
+                    </div>
+                    <p class="instrument-description"></p>
+                </div>
+                <button class="close-detail">&times;</button>
+            </div>
+        </div>
+
+        <div class="custom-progress-container">
+            <span class="progress-text">Progress: </span>
+            <div class="custom-progress">
+                <div class="custom-progress-fill"></div>
+            </div>
+            <span class="progress-percentage">0%</span>
+            <div class="quiz-popup">
+                <div class="quiz-popup-content">
+                    <p>Great job! Ready to test yourself?</p>
+                    <a href="/quiz" class="quiz-button">Start quiz</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
