@@ -56,16 +56,16 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     let visitedInstruments = new Set();
-    
+
     // Initialize progress bar
     updateProgress();
-    
+
     // Handle instrument click events
     document.querySelectorAll('.instrument-item').forEach(item => {
         item.addEventListener('click', function() {
             const instrumentId = this.dataset.instrument;
             const data = instrumentsData[instrumentId];
-            
+
             if (data) {
                 showInstrumentDetail(data);
                 if (!visitedInstruments.has(instrumentId)) {
@@ -82,45 +82,70 @@ document.addEventListener('DOMContentLoaded', function() {
         const image = detail.querySelector('.detail-image');
         const name = detail.querySelector('.instrument-name');
         const description = detail.querySelector('.instrument-description');
-        
+
         image.src = data.imageUrl;
         image.alt = data.name;
         name.textContent = data.name;
         description.textContent = data.description;
-        
+
         detail.style.display = 'flex';
     }
 
-    // Close button handler
-    document.querySelector('.close-detail').addEventListener('click', function() {
-        document.querySelector('.instrument-detail').style.display = 'none';
-    });
-
     // Sound playback button handler
+    let currentAudio = null;
+    let isPlaying = false;
+
     document.querySelector('.play-sound').addEventListener('click', function() {
         const detail = document.querySelector('.instrument-detail');
         const instrumentId = detail.querySelector('.detail-image').alt.toLowerCase();
         const data = instrumentsData[instrumentId];
-        
+        const button = this;
+
         if (data && data.soundFile) {
-            const audio = new Audio(`static/sounds/${data.soundFile}`);
-            audio.play();
+            if (!currentAudio) {
+                currentAudio = new Audio(`static/sounds/${data.soundFile}`);
+                currentAudio.addEventListener('ended', () => {
+                    isPlaying = false;
+                    button.style.backgroundImage = 'url("https://static.vecteezy.com/system/resources/previews/003/611/805/non_2x/sound-speaker-icon-on-white-background-free-vector.jpg")';
+                });
+            }
+
+            if (isPlaying) {
+                currentAudio.pause();
+                isPlaying = false;
+                button.style.backgroundImage = 'url("https://static.vecteezy.com/system/resources/previews/003/611/805/non_2x/sound-speaker-icon-on-white-background-free-vector.jpg")';
+            } else {
+                currentAudio.play();
+                isPlaying = true;
+                button.style.backgroundImage = 'url("https://cdn-icons-png.flaticon.com/512/27/27223.png")';
+            }
         }
+    });
+
+    // Close button handler
+    document.querySelector('.close-detail').addEventListener('click', function() {
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio = null;
+            isPlaying = false;
+            document.querySelector('.play-sound').style.backgroundImage = 'url("https://static.vecteezy.com/system/resources/previews/003/611/805/non_2x/sound-speaker-icon-on-white-background-free-vector.jpg")';
+        }
+        document.querySelector('.instrument-detail').style.display = 'none';
     });
 
     // Update progress bar
     function updateProgress() {
         const totalInstruments = Object.keys(instrumentsData).length;
         const progress = (visitedInstruments.size / totalInstruments) * 100;
-        
+
         const progressFill = document.querySelector('.custom-progress-fill');
         const progressText = document.querySelector('.progress-percentage');
         const quizPopup = document.querySelector('.quiz-popup');
-        
+
         if (progressFill && progressText) {
             progressFill.style.width = `${progress}%`;
             progressText.textContent = `${Math.round(progress)}%`;
-            
+
             // Show popup when reaching 100%
             if (progress === 100 && quizPopup) {
                 setTimeout(() => {

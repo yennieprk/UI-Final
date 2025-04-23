@@ -1,0 +1,343 @@
+.quiz-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+}
+
+.quiz-content h1 {
+    color: #c41e3a;
+    margin-bottom: 2rem;
+}
+
+.quiz-type-selector {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.quiz-type-button {
+    padding: 0.75rem 2rem;
+    border: 2px solid #c41e3a;
+    border-radius: 25px;
+    background: white;
+    color: #c41e3a;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.quiz-type-button.active {
+    background: #c41e3a;
+    color: white;
+}
+
+.quiz-type-button:hover {
+    background: #fff5f5;
+}
+
+.quiz-container {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.question-type {
+    margin-bottom: 2rem;
+}
+
+.question-container {
+    margin-bottom: 2rem;
+}
+
+.question-text {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.instrument-image-container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 2rem;
+}
+
+.instrument-image-container img {
+    max-width: 100%;
+    height: 300px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.sound-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23666" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>') no-repeat center;
+    background-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.sound-button:hover {
+    transform: scale(1.1);
+}
+
+/* Type 1: Image + Name Selection */
+.options-container.name-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+.option-button {
+    padding: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.option-button:hover {
+    border-color: #c41e3a;
+    background: #fff5f5;
+}
+
+/* Type 2: Image + Sound Selection */
+.options-container.sound-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.sound-option {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.sound-option input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    cursor: pointer;
+}
+
+.sound-option-button {
+    flex: 1;
+    padding: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sound-icon {
+    width: 24px;
+    height: 24px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23666" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>') no-repeat center;
+    background-size: contain;
+}
+
+/* Type 3: Sound + Name Selection */
+.sound-play-container {
+    margin: 2rem 0;
+}
+
+.main-sound-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    border: 2px solid #c41e3a;
+    border-radius: 25px;
+    background: white;
+    color: #c41e3a;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.main-sound-button:hover {
+    background: #fff5f5;
+}
+
+.main-sound-button .sound-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* Type 4: Multiple Image Matching */
+.matching-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+.matching-images {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.draggable-image {
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 0.5rem;
+    cursor: move;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.draggable-image img {
+    width: 100%;
+    height: 120px;
+    object-fit: contain;
+}
+
+.draggable-image.dragging {
+    opacity: 0.5;
+}
+
+.matching-slots {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.name-slot {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.instrument-name {
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.image-drop-zone {
+    height: 120px;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    background: #f8f9fa;
+    transition: all 0.3s ease;
+}
+
+.image-drop-zone.hover {
+    border-color: #c41e3a;
+    background: #fff5f5;
+}
+
+.image-drop-zone.correct {
+    border-color: #28a745;
+    background: #d4edda;
+}
+
+.image-drop-zone.incorrect {
+    border-color: #dc3545;
+    background: #f8d7da;
+}
+
+/* Common styles for correct/incorrect feedback */
+.correct {
+    border-color: #28a745;
+    background: #d4edda;
+    color: #155724;
+}
+
+.incorrect {
+    border-color: #dc3545;
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.playing {
+    border-color: #c41e3a;
+    background: #fff5f5;
+}
+
+/* Navigation and Progress */
+.navigation-container {
+    margin: 2rem 0;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.nav-button {
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 25px;
+    background: #c41e3a;
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.nav-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.nav-button:not(:disabled):hover {
+    background: #a01830;
+}
+
+.progress-container {
+    margin-top: 2rem;
+}
+
+.progress-text {
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
+.progress-bar {
+    height: 8px;
+    background: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #c41e3a;
+    width: 0;
+    transition: width 0.3s ease;
+}
+
+.quiz-complete {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.quiz-complete h2 {
+    color: #c41e3a;
+    margin-bottom: 1rem;
+}
+
+.hidden {
+    display: none;
+} 
