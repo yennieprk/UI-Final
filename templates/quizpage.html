@@ -5,126 +5,31 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/quiz.css') }}">
 
 <div class="quiz-content">
-    <h1>Test Your Knowledge</h1>
-    
     <div class="quiz-container">
-        <!-- Type 1: Image + Name Selection -->
+        <!-- Only using Type 1: Image + Name Selection -->
         <div class="question-type type-1">
-            <div class="question-container">
+            <div class="question-header">
+                <span id="question-number" class="question-number">1.</span>
                 <h2 class="question-text">What is this instrument?</h2>
+            </div>
+            <div class="question-body">
                 <div class="instrument-image-container">
                     <img id="instrument-image" src="" alt="Korean traditional instrument">
-                    <button class="sound-button" title="Play sound"></button>
+                    <button class="sound-button" title="Play sound"></button> 
                 </div>
-            </div>
-            <div class="options-container name-options">
-                <button class="option-button" data-option="1"></button>
-                <button class="option-button" data-option="2"></button>
-                <button class="option-button" data-option="3"></button>
-            </div>
-        </div>
-
-        <!-- Type 2: Image + Sound Selection -->
-        <div class="question-type type-2 hidden">
-            <div class="question-container">
-                <h2 class="question-text">Which sound matches this instrument?</h2>
-                <div class="instrument-image-container">
-                    <img id="instrument-image-2" src="" alt="Korean traditional instrument">
+                <div class="options-container name-options">
+                    <button class="option-button" data-option="1"></button>
+                    <button class="option-button" data-option="2"></button>
+                    <button class="option-button" data-option="3"></button>
                 </div>
-            </div>
-            <div class="options-container sound-options">
-                <div class="sound-option">
-                    <input type="radio" name="sound-choice" id="sound1">
-                    <label for="sound1">
-                        <button class="sound-option-button" data-option="1">
-                            <div class="sound-icon"></div>
-                        </button>
-                    </label>
-                </div>
-                <div class="sound-option">
-                    <input type="radio" name="sound-choice" id="sound2">
-                    <label for="sound2">
-                        <button class="sound-option-button" data-option="2">
-                            <div class="sound-icon"></div>
-                        </button>
-                    </label>
-                </div>
-                <div class="sound-option">
-                    <input type="radio" name="sound-choice" id="sound3">
-                    <label for="sound3">
-                        <button class="sound-option-button" data-option="3">
-                            <div class="sound-icon"></div>
-                        </button>
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <!-- Type 3: Sound + Name Selection -->
-        <div class="question-type type-3 hidden">
-            <div class="question-container">
-                <h2 class="question-text">Listen to the sound and select the correct instrument</h2>
-                <div class="sound-play-container">
-                    <button class="main-sound-button">
-                        <div class="sound-icon"></div>
-                        <span>Play Sound</span>
-                    </button>
-                </div>
-            </div>
-            <div class="options-container name-options">
-                <button class="option-button" data-option="1"></button>
-                <button class="option-button" data-option="2"></button>
-                <button class="option-button" data-option="3"></button>
-            </div>
-        </div>
-
-        <!-- Type 4: Multiple Image Matching -->
-        <div class="question-type type-4 hidden">
-            <div class="question-container">
-                <h2 class="question-text">Match each instrument with its correct name</h2>
-                <div class="matching-container">
-                    <div class="matching-images">
-                        <div class="draggable-image" draggable="true">
-                            <img src="" alt="Instrument 1">
-                        </div>
-                        <div class="draggable-image" draggable="true">
-                            <img src="" alt="Instrument 2">
-                        </div>
-                        <div class="draggable-image" draggable="true">
-                            <img src="" alt="Instrument 3">
-                        </div>
-                    </div>
-                    <div class="matching-slots">
-                        <div class="name-slot" data-instrument="">
-                            <span class="instrument-name"></span>
-                            <div class="image-drop-zone"></div>
-                        </div>
-                        <div class="name-slot" data-instrument="">
-                            <span class="instrument-name"></span>
-                            <div class="image-drop-zone"></div>
-                        </div>
-                        <div class="name-slot" data-instrument="">
-                            <span class="instrument-name"></span>
-                            <div class="image-drop-zone"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="navigation-container">
-            <button id="check-button" class="nav-button">Check Answer</button>
-            <button id="next-button" class="nav-button" disabled>Next Question →</button>
-        </div>
-
-        <div class="progress-container">
-            <div class="progress-text">Question <span id="current-question">1</span> of <span id="total-questions">10</span></div>
-            <div class="progress-bar">
-                <div class="progress-fill"></div>
+                 <div class="navigation-container">
+                    <button id="next-button" class="nav-button arrow-button" disabled>➔</button>
+                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Quiz Complete section -->
     <div id="quiz-complete" class="quiz-complete hidden">
         <h2>Quiz Complete!</h2>
         <p>Your score: <span id="final-score">0</span>/<span id="total-score">0</span></p>

@@ -1,14 +1,16 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Remove active class from all nav links
+    // Add active class to Quiz link in navbar
     document.querySelectorAll('.nav-link-custom').forEach(link => link.classList.remove('active'));
-    // Add active class to Quiz link
-    document.querySelector('a[href="/quiz"]').classList.add('active');
+    const quizLink = document.querySelector('a[href="/quiz"]');
+    if (quizLink) {
+        quizLink.classList.add('active');
+    }
 
-    // Quiz data
+    // --- Quiz Data --- 
     const instruments = [
         {
             name: 'Haegeum',
-            image: 'https://lh3.googleusercontent.com/proxy/s8eoAEHxwqlj5peqRHCzm33iLgYYkSGGwz-3M7LWoINsjVO-Y6LG4YFX6VFUvFdLZJR1WDpefU5mNjGHJpQZ3d78dsB7AlzXHjLy5AwyxPmu9YmRqAfVeg',
+            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6JAI_UCePBZIhitfBKWjPNf3uxAWoqAFvuA&s',
             sound: 'haegeum.mp3'
         },
         {
@@ -23,390 +25,253 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         {
             name: 'Piri',
-            image: 'https://i.pinimg.com/474x/92/dd/81/92dd81d9ec30e416e3945d8fe4d0f3b4.jpg',
+            image: 'https://i.pinimg.com/474x/92/dd/81/92dd81d9ec30e416e3945d8fe4d0f3b4.jpg', 
             sound: 'piri.mp3'
         },
         {
             name: 'Daegeum',
             image: 'https://organology.net/storage/2024/07/Daegeum-6.jpeg',
             sound: 'daegeum.mp3'
+        },
+        {
+            name: 'Geomungo',
+            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDEIJNzk4jomaiaPoANwSoQVhvLhpezOgLsg&s',
+            sound: 'geomungo.mp3'
+        },
+        {
+            name: 'Jing',
+            image: 'https://i.pinimg.com/474x/09/c3/05/09c305a19673c1344eb337a2813d043d.jpg',
+            sound: 'jing.mp3'
+        },
+        {
+            name: 'Kkwaenggwari',
+            image: 'https://i.pinimg.com/1200x/76/ff/2f/76ff2fdb271fa6a8fff972070a36d569.jpg',
+            sound: 'kkwaenggwari.mp3'
         }
+        // Add more instruments if you want more variety for options
     ];
 
+    const TOTAL_QUESTIONS = 5;
     let currentQuestionIndex = 0;
     let score = 0;
     let questions = [];
     let currentAudio = null;
     let selectedAnswer = null;
-    let draggedImage = null;
 
-    // Initialize quiz
-    function initializeQuiz() {
-        // Create questions array with different types
-        questions = [
-            createNameQuestion(),     // Type 1: Image + Name Selection
-            createSoundQuestion(),    // Type 2: Image + Sound Selection
-            createListenQuestion(),   // Type 3: Sound + Name Selection
-            createMatchingQuestion()  // Type 4: Multiple Image Matching
-        ];
+    // --- DOM Elements --- 
+    const questionNumberEl = document.getElementById('question-number');
+    const questionTextEl = document.querySelector('.question-text'); // Assuming only one h2
+    const instrumentImageEl = document.getElementById('instrument-image');
+    const optionButtons = document.querySelectorAll('.option-button');
+    const soundButton = document.querySelector('.sound-button');
+    const nextButton = document.getElementById('next-button');
+    const quizContainer = document.querySelector('.quiz-container');
+    const quizCompleteSection = document.getElementById('quiz-complete');
+    const finalScoreEl = document.getElementById('final-score');
+    const totalScoreEl = document.getElementById('total-score');
+    const retryButton = document.getElementById('retry-button');
 
-        currentQuestionIndex = 0;
-        score = 0;
-        updateQuestion();
-        updateProgress();
-        
-        document.getElementById('quiz-complete').classList.add('hidden');
-        document.querySelector('.quiz-container').classList.remove('hidden');
-    }
-
-    // Create different question types
-    function createNameQuestion() {
-        const correctInstrument = getRandomInstrument();
-        const wrongOptions = getRandomInstruments(2, [correctInstrument]);
-        
-        return {
-            type: 1,
-            instrument: correctInstrument,
-            options: shuffle([...wrongOptions, correctInstrument])
-        };
-    }
-
-    function createSoundQuestion() {
-        const correctInstrument = getRandomInstrument();
-        const wrongOptions = getRandomInstruments(2, [correctInstrument]);
-        
-        return {
-            type: 2,
-            instrument: correctInstrument,
-            options: shuffle([...wrongOptions, correctInstrument])
-        };
-    }
-
-    function createListenQuestion() {
-        const correctInstrument = getRandomInstrument();
-        const wrongOptions = getRandomInstruments(2, [correctInstrument]);
-        
-        return {
-            type: 3,
-            instrument: correctInstrument,
-            options: shuffle([...wrongOptions, correctInstrument])
-        };
-    }
-
-    function createMatchingQuestion() {
-        const selectedInstruments = getRandomInstruments(3);
-        return {
-            type: 4,
-            instruments: selectedInstruments,
-            options: shuffle([...selectedInstruments])
-        };
-    }
-
-    // Helper functions
-    function getRandomInstrument() {
-        return instruments[Math.floor(Math.random() * instruments.length)];
+    // --- Helper Functions --- 
+    function shuffle(array) {
+        let currentIndex = array.length, randomIndex;
+        while (currentIndex !== 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+        }
+        return array;
     }
 
     function getRandomInstruments(count, exclude = []) {
-        const available = instruments.filter(i => !exclude.includes(i));
-        return shuffle(available).slice(0, count);
+        const excludeNames = exclude.map(item => item.name);
+        const available = instruments.filter(i => !excludeNames.includes(i.name));
+        return shuffle([...available]).slice(0, count);
     }
 
-    function shuffle(array) {
-        return [...array].sort(() => Math.random() - 0.5);
+    // --- Core Quiz Logic --- 
+    function createUniqueQuestions(numQuestions) {
+        const shuffledInstruments = shuffle([...instruments]);
+        const selectedCorrectInstruments = shuffledInstruments.slice(0, numQuestions);
+        
+        return selectedCorrectInstruments.map(correctInstrument => {
+            const wrongOptions = getRandomInstruments(2, [correctInstrument]);
+            return {
+                instrument: correctInstrument,
+                options: shuffle([...wrongOptions, correctInstrument])
+            };
+        });
     }
 
-    // Update the current question
     function updateQuestion() {
-        const question = questions[currentQuestionIndex];
-        
-        // Hide all question types
-        document.querySelectorAll('.question-type').forEach(el => el.classList.add('hidden'));
-        
-        // Show current question type
-        document.querySelector(`.type-${question.type}`).classList.remove('hidden');
-        
-        // Reset check button and selected answer
-        document.getElementById('check-button').disabled = false;
-        document.getElementById('next-button').disabled = true;
-        selectedAnswer = null;
-
-        switch(question.type) {
-            case 1:
-                updateNameQuestion(question);
-                break;
-            case 2:
-                updateSoundQuestion(question);
-                break;
-            case 3:
-                updateListenQuestion(question);
-                break;
-            case 4:
-                updateMatchingQuestion(question);
-                break;
-        }
-    }
-
-    function updateNameQuestion(question) {
-        document.querySelector('.type-1 img').src = question.instrument.image;
-        document.querySelectorAll('.type-1 .option-button').forEach((button, index) => {
-            button.textContent = question.options[index].name;
-            button.className = 'option-button';
-            button.disabled = false;
-        });
-    }
-
-    function updateSoundQuestion(question) {
-        document.querySelector('.type-2 img').src = question.instrument.image;
-        document.querySelectorAll('input[type="radio"]').forEach(radio => {
-            radio.checked = false;
-            radio.disabled = false;
-        });
-        document.querySelectorAll('.sound-option-button').forEach(button => {
-            button.className = 'sound-option-button';
-            button.disabled = false;
-        });
-    }
-
-    function updateListenQuestion(question) {
-        document.querySelectorAll('.type-3 .option-button').forEach((button, index) => {
-            button.textContent = question.options[index].name;
-            button.className = 'option-button';
-            button.disabled = false;
-        });
-    }
-
-    function updateMatchingQuestion(question) {
-        const images = document.querySelectorAll('.draggable-image img');
-        const slots = document.querySelectorAll('.name-slot');
-        
-        question.instruments.forEach((instrument, index) => {
-            images[index].src = instrument.image;
-            slots[index].querySelector('.instrument-name').textContent = instrument.name;
-            slots[index].dataset.instrument = instrument.name;
-        });
-
-        // Reset drop zones
-        document.querySelectorAll('.image-drop-zone').forEach(zone => {
-            zone.innerHTML = '';
-            zone.className = 'image-drop-zone';
-        });
-    }
-
-    // Handle sound playback
-    function playSound(instrument) {
-        if (currentAudio) {
-            currentAudio.pause();
-            currentAudio.currentTime = 0;
-        }
-        currentAudio = new Audio(`/static/sounds/${instrument.sound}`);
-        currentAudio.play();
-    }
-
-    // Handle answer checking
-    function checkAnswer() {
-        const question = questions[currentQuestionIndex];
-        let isCorrect = false;
-
-        switch(question.type) {
-            case 1:
-                isCorrect = checkNameAnswer(question);
-                break;
-            case 2:
-                isCorrect = checkSoundAnswer(question);
-                break;
-            case 3:
-                isCorrect = checkListenAnswer(question);
-                break;
-            case 4:
-                isCorrect = checkMatchingAnswer(question);
-                break;
-        }
-
-        if (isCorrect) score++;
-        document.getElementById('check-button').disabled = true;
-        document.getElementById('next-button').disabled = false;
-    }
-
-    function checkNameAnswer(question) {
-        if (!selectedAnswer) return false;
-        const isCorrect = selectedAnswer === question.instrument.name;
-        
-        document.querySelectorAll('.type-1 .option-button').forEach(button => {
-            if (button.textContent === question.instrument.name) {
-                button.classList.add('correct');
-            } else if (button.textContent === selectedAnswer && !isCorrect) {
-                button.classList.add('incorrect');
-            }
-        });
-
-        return isCorrect;
-    }
-
-    function checkSoundAnswer(question) {
-        const selectedRadio = document.querySelector('input[type="radio"]:checked');
-        if (!selectedRadio) return false;
-
-        const selectedIndex = Array.from(document.querySelectorAll('input[type="radio"]'))
-            .indexOf(selectedRadio);
-        const isCorrect = question.options[selectedIndex] === question.instrument;
-
-        document.querySelectorAll('.sound-option-button').forEach((button, index) => {
-            if (question.options[index] === question.instrument) {
-                button.classList.add('correct');
-            } else if (index === selectedIndex && !isCorrect) {
-                button.classList.add('incorrect');
-            }
-        });
-
-        return isCorrect;
-    }
-
-    function checkListenAnswer(question) {
-        if (!selectedAnswer) return false;
-        const isCorrect = selectedAnswer === question.instrument.name;
-        
-        document.querySelectorAll('.type-3 .option-button').forEach(button => {
-            if (button.textContent === question.instrument.name) {
-                button.classList.add('correct');
-            } else if (button.textContent === selectedAnswer && !isCorrect) {
-                button.classList.add('incorrect');
-            }
-        });
-
-        return isCorrect;
-    }
-
-    function checkMatchingAnswer(question) {
-        let correctCount = 0;
-        document.querySelectorAll('.name-slot').forEach((slot, index) => {
-            const dropZone = slot.querySelector('.image-drop-zone');
-            const droppedImage = dropZone.querySelector('img');
-            
-            if (droppedImage) {
-                const expectedInstrument = slot.dataset.instrument;
-                const droppedInstrument = question.instruments.find(i => i.image === droppedImage.src);
-                
-                if (droppedInstrument.name === expectedInstrument) {
-                    dropZone.classList.add('correct');
-                    correctCount++;
-                } else {
-                    dropZone.classList.add('incorrect');
-                }
-            }
-        });
-
-        return correctCount === 3;
-    }
-
-    // Handle next question
-    function handleNext() {
-        if (currentAudio) {
-            currentAudio.pause();
-            currentAudio.currentTime = 0;
-        }
-
-        currentQuestionIndex++;
-        
         if (currentQuestionIndex >= questions.length) {
             showResults();
+            return;
+        }
+        const question = questions[currentQuestionIndex];
+        
+        // Update UI elements
+        questionNumberEl.textContent = `${currentQuestionIndex + 1}.`;
+        // questionTextEl.textContent remains "What is this instrument?" (can be changed if needed)
+        instrumentImageEl.src = question.instrument.image;
+        instrumentImageEl.alt = question.instrument.name; 
+        
+        // Reset options
+        nextButton.disabled = true;
+        selectedAnswer = null;
+        optionButtons.forEach((button, index) => {
+            button.classList.remove('correct', 'incorrect', 'selected');
+            button.disabled = false;
+            if (question.options[index]) {
+                 button.textContent = question.options[index].name;
+                 button.style.display = ''; 
+            } else {
+                 button.style.display = 'none'; // Should not happen with 3 options
+            }
+        });
+        
+        stopSound();
+    }
+
+    function playSound() {
+        const question = questions[currentQuestionIndex];
+        const soundFile = question?.instrument?.sound;
+        
+        if (!soundFile) {
+            console.warn("Sound file not found for current instrument.");
+            return;
+        }
+
+        const soundSrc = `/static/sounds/${soundFile}`;
+
+        // Check if audio exists and is for the current sound
+        if (currentAudio && currentAudio.src.endsWith(soundSrc)) {
+            if (currentAudio.paused) {
+                currentAudio.play().catch(e => console.error("Error playing sound:", e));
+                soundButton.classList.add('playing'); // Add playing class
+            } else {
+                currentAudio.pause();
+                soundButton.classList.remove('playing'); // Remove playing class
+            }
         } else {
-            updateQuestion();
-            updateProgress();
+            // Stop any previous sound and create new audio
+            stopSound(); 
+            currentAudio = new Audio(soundSrc);
+            
+            // Add listener for when the sound naturally ends
+            currentAudio.addEventListener('ended', () => {
+                soundButton.classList.remove('playing'); 
+                // Optional: nullify currentAudio here if you want a fresh play next time
+                // currentAudio = null;
+            });
+            
+            // Add listener for pause events (if triggered outside the button)
+            currentAudio.addEventListener('pause', () => {
+                 if (currentAudio && !currentAudio.ended) { // Don't remove class if it naturally ended
+                    soundButton.classList.remove('playing');
+                 }
+            });
+            
+             // Add listener for play events
+            currentAudio.addEventListener('play', () => {
+                 soundButton.classList.add('playing');
+            });
+
+            currentAudio.play().catch(e => {
+                console.error("Error playing sound:", e);
+                stopSound(); // Clean up if play fails
+            });
+            soundButton.classList.add('playing'); 
         }
     }
 
-    // Update progress
-    function updateProgress() {
-        const current = currentQuestionIndex + 1;
-        const total = questions.length;
-        
-        document.getElementById('current-question').textContent = current;
-        document.getElementById('total-questions').textContent = total;
-        
-        const progressFill = document.querySelector('.progress-fill');
-        progressFill.style.width = `${(current / total) * 100}%`;
+    function stopSound() {
+        if (currentAudio) {
+            currentAudio.pause();
+            // Remove event listeners to prevent memory leaks if you reuse the audio object
+            // If creating new Audio() each time, this might be less critical but good practice
+            currentAudio.removeEventListener('ended', () => {}); 
+            currentAudio.removeEventListener('pause', () => {});
+            currentAudio.removeEventListener('play', () => {});
+            currentAudio = null;
+        }
+        soundButton.classList.remove('playing'); // Ensure button resets
     }
 
-    // Show results
-    function showResults() {
-        document.querySelector('.quiz-container').classList.add('hidden');
-        const quizComplete = document.getElementById('quiz-complete');
-        quizComplete.classList.remove('hidden');
+    function handleOptionClick(button) {
+        if (button.disabled) return;
+        selectedAnswer = button.textContent;
         
-        document.getElementById('final-score').textContent = score;
-        document.getElementById('total-score').textContent = questions.length;
+        // Visual selection indicator (optional)
+        optionButtons.forEach(b => b.classList.remove('selected')); 
+        button.classList.add('selected');
+
+        checkAnswer();
     }
 
-    // Event Listeners
-    document.querySelectorAll('.option-button').forEach(button => {
-        button.addEventListener('click', () => {
-            if (button.disabled) return;
-            selectedAnswer = button.textContent;
-            document.querySelectorAll('.option-button').forEach(b => b.classList.remove('selected'));
-            button.classList.add('selected');
-        });
-    });
+    function checkAnswer() {
+        if (!selectedAnswer) return; 
 
-    document.querySelectorAll('.sound-option-button').forEach((button, index) => {
-        button.addEventListener('click', () => {
-            if (button.disabled) return;
-            const question = questions[currentQuestionIndex];
-            playSound(question.options[index]);
-            button.classList.add('playing');
-        });
-    });
-
-    document.querySelector('.main-sound-button').addEventListener('click', () => {
         const question = questions[currentQuestionIndex];
-        playSound(question.instrument);
-    });
-
-    // Drag and Drop handlers
-    document.querySelectorAll('.draggable-image').forEach(image => {
-        image.addEventListener('dragstart', e => {
-            draggedImage = image;
-            image.classList.add('dragging');
-        });
-
-        image.addEventListener('dragend', () => {
-            draggedImage.classList.remove('dragging');
-            draggedImage = null;
-        });
-    });
-
-    document.querySelectorAll('.image-drop-zone').forEach(zone => {
-        zone.addEventListener('dragover', e => {
-            e.preventDefault();
-            zone.classList.add('hover');
-        });
-
-        zone.addEventListener('dragleave', () => {
-            zone.classList.remove('hover');
-        });
-
-        zone.addEventListener('drop', e => {
-            e.preventDefault();
-            zone.classList.remove('hover');
-            
-            if (draggedImage) {
-                // Remove image from previous drop zone if it exists
-                document.querySelectorAll('.image-drop-zone').forEach(z => {
-                    if (z.contains(draggedImage)) {
-                        z.removeChild(draggedImage);
-                    }
-                });
-                
-                // Add image to new drop zone
-                zone.appendChild(draggedImage);
+        const isCorrect = selectedAnswer === question.instrument.name;
+        
+        optionButtons.forEach(button => {
+             button.disabled = true; 
+            if (button.textContent === question.instrument.name) {
+                button.classList.add('correct');
+            } else if (button.textContent === selectedAnswer && !isCorrect) {
+                button.classList.add('incorrect');
             }
         });
+
+        if (isCorrect) score++;
+        nextButton.disabled = false;
+    }
+
+    function handleNext() {
+        stopSound(); 
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            updateQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        stopSound();
+        quizContainer.classList.add('hidden');
+        quizCompleteSection.classList.remove('hidden');
+        finalScoreEl.textContent = score;
+        totalScoreEl.textContent = questions.length;
+    }
+
+    function initializeQuiz() {
+        questions = createUniqueQuestions(TOTAL_QUESTIONS);
+        if (questions.length < TOTAL_QUESTIONS) {
+             console.error(`Could not generate ${TOTAL_QUESTIONS} unique questions. Only ${questions.length} available.`);
+             // Handle this case - maybe show fewer questions or an error
+        }
+        currentQuestionIndex = 0;
+        score = 0;
+        updateQuestion();
+        quizCompleteSection.classList.add('hidden');
+        quizContainer.classList.remove('hidden');
+    }
+
+    // --- Event Listeners --- 
+    optionButtons.forEach(button => {
+        button.addEventListener('click', () => handleOptionClick(button));
     });
 
-    document.getElementById('check-button').addEventListener('click', checkAnswer);
-    document.getElementById('next-button').addEventListener('click', handleNext);
-    document.getElementById('retry-button').addEventListener('click', initializeQuiz);
+    soundButton.addEventListener('click', playSound);
+    nextButton.addEventListener('click', handleNext);
+    retryButton.addEventListener('click', initializeQuiz);
 
-    // Start the quiz
-    initializeQuiz();
+    // --- Start the quiz --- 
+    if(instruments.length < 3) {
+         console.error("Not enough instruments defined to create 3 options.");
+         // Display an error message to the user on the page
+    } else {
+        initializeQuiz();
+    }
 });
