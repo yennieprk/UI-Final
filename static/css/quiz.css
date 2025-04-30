@@ -1,7 +1,7 @@
 /* Base Styles */
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #f4f4f4; /* Light background for context */
+    background-color: #ffffff; /* Changed to white */
     margin: 0;
     padding: 0;
 }
@@ -210,6 +210,13 @@ body {
     color: #333;
 }
 
+.quiz-complete .button-container {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
 .quiz-complete .nav-button {
     padding: 0.7rem 1.8rem;
     border: none;
@@ -220,6 +227,8 @@ body {
     cursor: pointer;
     transition: background-color 0.3s ease;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-decoration: none;
+    display: inline-block;
 }
 
 .quiz-complete .nav-button:hover {
