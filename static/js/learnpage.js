@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
             name: 'Haegeum (해금)',
             description: 'A traditional Korean string instrument played with a bow. It features two strings and a bamboo bow, allowing players to create a wide range of unique tonal expressions.',
             soundFile: 'haegeum.mp3',
-            imageUrl: 'https://lh3.googleusercontent.com/proxy/s8eoAEHxwqlj5peqRHCzm33iLgYYkSGGwz-3M7LWoINsjVO-Y6LG4YFX6VFUvFdLZJR1WDpefU5mNjGHJpQZ3d78dsB7AlzXHjLy5AwyxPmu9YmRqAfVeg'
+            imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6JAI_UCePBZIhitfBKWjPNf3uxAWoqAFvuA&s'
         },
         gayageum: {
             name: 'Gayageum (가야금)',

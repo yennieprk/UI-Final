@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const instruments = [
         {
             name: 'Haegeum',
-            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6JAI_UCePBZIhitfBKWjPNf3uxAWoqAFvuA&s',
+            image: '/static/image/haegeum.png',
             sound: 'haegeum.mp3'
         },
         {
@@ -20,32 +20,32 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         {
             name: 'Janggu',
-            image: 'https://t3.ftcdn.net/jpg/11/08/49/66/360_F_1108496624_6J2WQ2bv0p0hrYXkhFQwDMcWwB12kmuA.jpg',
+            image: '/static/image/janggu.png',
             sound: 'janggu.mp3'
         },
         {
             name: 'Piri',
-            image: 'https://i.pinimg.com/474x/92/dd/81/92dd81d9ec30e416e3945d8fe4d0f3b4.jpg', 
+            image: '/static/image/piri.png', 
             sound: 'piri.mp3'
         },
         {
             name: 'Daegeum',
-            image: 'https://organology.net/storage/2024/07/Daegeum-6.jpeg',
+            image: '/static/image/daegeum.png',
             sound: 'daegeum.mp3'
         },
         {
             name: 'Geomungo',
-            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDEIJNzk4jomaiaPoANwSoQVhvLhpezOgLsg&s',
+            image: '/static/image/geomungo.png',
             sound: 'geomungo.mp3'
         },
         {
             name: 'Jing',
-            image: 'https://i.pinimg.com/474x/09/c3/05/09c305a19673c1344eb337a2813d043d.jpg',
+            image: '/static/image/jing.png',
             sound: 'jing.mp3'
         },
         {
             name: 'Kkwaenggwari',
-            image: 'https://i.pinimg.com/1200x/76/ff/2f/76ff2fdb271fa6a8fff972070a36d569.jpg',
+            image: '/static/image/kkwaenggwari.png',
             sound: 'kkwaenggwari.mp3'
         }
         // Add more instruments if you want more variety for options
