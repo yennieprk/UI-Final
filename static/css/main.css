@@ -1,5 +1,5 @@
 body {
-    background-color: #fff4e4;
+    background-color: #fbf5ec;
 }
 
 .navbar {
@@ -126,4 +126,21 @@ body {
 /* Hide only the navigation logo on homepage */
 body:has(.home-container) .navbar .logo {
     display: none;
+}
+
+.home-content h1 {
+    font-family: "Didot", "Bodoni MT", serif;
+    font-size: 3.5rem;
+    color: #c41e3a;
+    text-align: center;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.home-content p {
+    font-size: 1.3rem;
+    line-height: 1;
+    color: #333;
+    text-align: center;
+    margin: 0.5rem 0;
 }

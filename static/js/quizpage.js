@@ -146,55 +146,60 @@ document.addEventListener('DOMContentLoaded', function() {
         // Check if audio exists and is for the current sound
         if (currentAudio && currentAudio.src.endsWith(soundSrc)) {
             if (currentAudio.paused) {
-                currentAudio.play().catch(e => console.error("Error playing sound:", e));
-                soundButton.classList.add('playing'); // Add playing class
+                currentAudio.play()
+                    .then(() => {
+                        soundButton.classList.add('playing');
+                    })
+                    .catch(e => {
+                        console.error("Error playing sound:", e);
+                        stopSound();
+                    });
             } else {
                 currentAudio.pause();
-                soundButton.classList.remove('playing'); // Remove playing class
+                soundButton.classList.remove('playing');
             }
         } else {
             // Stop any previous sound and create new audio
-            stopSound(); 
+            stopSound();
             currentAudio = new Audio(soundSrc);
             
             // Add listener for when the sound naturally ends
             currentAudio.addEventListener('ended', () => {
-                soundButton.classList.remove('playing'); 
-                // Optional: nullify currentAudio here if you want a fresh play next time
-                // currentAudio = null;
+                soundButton.classList.remove('playing');
             });
             
-            // Add listener for pause events (if triggered outside the button)
+            // Add listener for pause events
             currentAudio.addEventListener('pause', () => {
-                 if (currentAudio && !currentAudio.ended) { // Don't remove class if it naturally ended
+                if (currentAudio && !currentAudio.ended) {
                     soundButton.classList.remove('playing');
-                 }
+                }
             });
             
-             // Add listener for play events
+            // Add listener for play events
             currentAudio.addEventListener('play', () => {
-                 soundButton.classList.add('playing');
+                soundButton.classList.add('playing');
             });
 
-            currentAudio.play().catch(e => {
-                console.error("Error playing sound:", e);
-                stopSound(); // Clean up if play fails
-            });
-            soundButton.classList.add('playing'); 
+            currentAudio.play()
+                .then(() => {
+                    soundButton.classList.add('playing');
+                })
+                .catch(e => {
+                    console.error("Error playing sound:", e);
+                    stopSound();
+                });
         }
     }
 
     function stopSound() {
         if (currentAudio) {
             currentAudio.pause();
-            // Remove event listeners to prevent memory leaks if you reuse the audio object
-            // If creating new Audio() each time, this might be less critical but good practice
-            currentAudio.removeEventListener('ended', () => {}); 
+            currentAudio.removeEventListener('ended', () => {});
             currentAudio.removeEventListener('pause', () => {});
             currentAudio.removeEventListener('play', () => {});
             currentAudio = null;
         }
-        soundButton.classList.remove('playing'); // Ensure button resets
+        soundButton.classList.remove('playing');
     }
 
     function handleOptionClick(button) {
