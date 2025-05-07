@@ -93,43 +93,96 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Sound playback button handler
     let currentAudio = null;
-    let isPlaying = false;
 
     document.querySelector('.play-sound').addEventListener('click', function() {
         const detail = document.querySelector('.instrument-detail');
-        const instrumentId = detail.querySelector('.detail-image').alt.toLowerCase();
+        const instrumentName = detail.querySelector('.detail-image').alt;
+        const instrumentId = Object.keys(instrumentsData).find(key => 
+            instrumentsData[key].name.toLowerCase().includes(instrumentName.toLowerCase())
+        );
         const data = instrumentsData[instrumentId];
         const button = this;
 
         if (data && data.soundFile) {
-            if (!currentAudio) {
-                currentAudio = new Audio(`static/sounds/${data.soundFile}`);
-                currentAudio.addEventListener('ended', () => {
-                    isPlaying = false;
-                    button.style.backgroundImage = 'url("https://static.vecteezy.com/system/resources/previews/003/611/805/non_2x/sound-speaker-icon-on-white-background-free-vector.jpg")';
-                });
-            }
+            const soundSrc = `/static/sounds/${data.soundFile}`;
+            console.log('Playing sound:', soundSrc); // 디버깅용 로그
 
-            if (isPlaying) {
-                currentAudio.pause();
-                isPlaying = false;
-                button.style.backgroundImage = 'url("https://static.vecteezy.com/system/resources/previews/003/611/805/non_2x/sound-speaker-icon-on-white-background-free-vector.jpg")';
+            // Check if audio exists and is for the current sound
+            if (currentAudio && currentAudio.src.endsWith(soundSrc)) {
+                if (currentAudio.paused) {
+                    currentAudio.play()
+                        .then(() => {
+                            console.log('Sound started playing');
+                            button.classList.add('playing');
+                        })
+                        .catch(e => {
+                            console.error("Error playing sound:", e);
+                            stopSound();
+                        });
+                } else {
+                    currentAudio.pause();
+                    button.classList.remove('playing');
+                }
             } else {
-                currentAudio.play();
-                isPlaying = true;
-                button.style.backgroundImage = 'url("https://cdn-icons-png.flaticon.com/512/27/27223.png")';
+                // Stop any previous sound and create new audio
+                stopSound();
+                currentAudio = new Audio(soundSrc);
+                
+                // Add listener for when the sound naturally ends
+                currentAudio.addEventListener('ended', () => {
+                    console.log('Sound ended');
+                    button.classList.remove('playing');
+                });
+                
+                // Add listener for pause events
+                currentAudio.addEventListener('pause', () => {
+                    if (currentAudio && !currentAudio.ended) {
+                        console.log('Sound paused');
+                        button.classList.remove('playing');
+                    }
+                });
+                
+                // Add listener for play events
+                currentAudio.addEventListener('play', () => {
+                    console.log('Sound playing');
+                    button.classList.add('playing');
+                });
+
+                // Add error handling
+                currentAudio.addEventListener('error', (e) => {
+                    console.error('Audio error:', e);
+                    stopSound();
+                });
+
+                currentAudio.play()
+                    .then(() => {
+                        console.log('Sound started playing');
+                        button.classList.add('playing');
+                    })
+                    .catch(e => {
+                        console.error("Error playing sound:", e);
+                        stopSound();
+                    });
             }
+        } else {
+            console.error('No sound file found for instrument:', instrumentId);
         }
     });
 
-    // Close button handler
-    document.querySelector('.close-detail').addEventListener('click', function() {
+    function stopSound() {
         if (currentAudio) {
             currentAudio.pause();
+            currentAudio.removeEventListener('ended', () => {});
+            currentAudio.removeEventListener('pause', () => {});
+            currentAudio.removeEventListener('play', () => {});
             currentAudio = null;
-            isPlaying = false;
-            document.querySelector('.play-sound').style.backgroundImage = 'url("https://static.vecteezy.com/system/resources/previews/003/611/805/non_2x/sound-speaker-icon-on-white-background-free-vector.jpg")';
         }
+        document.querySelector('.play-sound').classList.remove('playing');
+    }
+
+    // Close button handler
+    document.querySelector('.close-detail').addEventListener('click', function() {
+        stopSound();
         document.querySelector('.instrument-detail').style.display = 'none';
     });
 
