@@ -55,10 +55,35 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    let visitedInstruments = new Set();
+    // Initialize learned instruments array
+    let learnedInstruments = [];
 
-    // Initialize progress bar
+    // Update instrument learning status
+    function updateInstrumentStatus(instrumentId) {
+        if (!learnedInstruments.includes(instrumentId)) {
+            learnedInstruments.push(instrumentId);
+        }
+        updateInstrumentDisplay();
+        updateProgress();
+    }
+
+    // Update visual display of instruments
+    function updateInstrumentDisplay() {
+        document.querySelectorAll('.instrument-item').forEach(item => {
+            const instrumentId = item.dataset.instrument;
+            if (learnedInstruments.includes(instrumentId)) {
+                item.classList.add('learned');
+                item.classList.remove('not-learned');
+            } else {
+                item.classList.add('not-learned');
+                item.classList.remove('learned');
+            }
+        });
+    }
+
+    // Initialize progress bar and display
     updateProgress();
+    updateInstrumentDisplay();
 
     // Handle instrument click events
     document.querySelectorAll('.instrument-item').forEach(item => {
@@ -68,10 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (data) {
                 showInstrumentDetail(data);
-                if (!visitedInstruments.has(instrumentId)) {
-                    visitedInstruments.add(instrumentId);
-                    updateProgress();
-                }
+                updateInstrumentStatus(instrumentId);
             }
         });
     });
@@ -90,6 +112,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
         detail.style.display = 'flex';
     }
+
+    // Close detail when clicking outside
+    document.querySelector('.instrument-detail').addEventListener('click', function(e) {
+        // Check if the click was on the background (not on the content)
+        if (e.target === this) {
+            stopSound();
+            this.style.display = 'none';
+        }
+    });
+
+    // Prevent closing when clicking on the content
+    document.querySelector('.detail-content').addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
 
     // Sound playback button handler
     let currentAudio = null;
@@ -189,21 +225,23 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update progress bar
     function updateProgress() {
         const totalInstruments = Object.keys(instrumentsData).length;
-        const progress = (visitedInstruments.size / totalInstruments) * 100;
+        const progress = (learnedInstruments.length / totalInstruments) * 100;
 
         const progressFill = document.querySelector('.custom-progress-fill');
-        const progressText = document.querySelector('.progress-percentage');
+        const progressText = document.querySelector('.progress-text');
+        const progressPercentage = document.querySelector('.progress-percentage');
         const quizPopup = document.querySelector('.quiz-popup');
 
-        if (progressFill && progressText) {
+        if (progressFill && progressText && progressPercentage) {
             progressFill.style.width = `${progress}%`;
-            progressText.textContent = `${Math.round(progress)}%`;
+            progressText.textContent = `${learnedInstruments.length}/${totalInstruments}`;
+            progressPercentage.textContent = `${Math.round(progress)}%`;
 
             // Show popup when reaching 100%
             if (progress === 100 && quizPopup) {
                 setTimeout(() => {
                     quizPopup.classList.add('show');
-                }, 500); // Small delay for better UX
+                }, 500);
             }
         }
     }
