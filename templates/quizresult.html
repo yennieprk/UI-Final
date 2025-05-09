@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/quiz.css') }}">
+<div class="quiz-content">
+    <div class="quiz-container">
+        <div class="quiz-complete" style="text-align: center; margin-top: 3rem;">
+            <h2>Quiz Complete!</h2>
+            <p>Great job! You have finished the quiz.</p>
+            <div class="result-button-row">
+                <a href="/quiz1" class="result-btn">Retake Quiz</a>
+                <a href="/" class="result-btn">Go to Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="{{ url_for('static', filename='js/quizresult.js') }}"></script>
+{% endblock %}

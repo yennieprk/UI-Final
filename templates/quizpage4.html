@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/quizpage4.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/quiz.css') }}">
+
+<div class="quiz-content">
+    <div class="quiz-container">
+        <div class="question-type type-4">
+            <div class="question-header">
+                <span class="question-number">8.</span>
+                <h2 class="question-text">Which sound matches this description?</h2>
+            </div>
+            <div class="question-body">
+                <div class="description-box" id="instrument-description"></div>
+                <div class="options-container sound-options">
+                    <div class="sound-option-wrap"><div class="sound-dot" data-dot="0"></div><button class="sound-option-btn" data-option="1"></button></div>
+                    <div class="sound-option-wrap"><div class="sound-dot" data-dot="1"></div><button class="sound-option-btn" data-option="2"></button></div>
+                    <div class="sound-option-wrap"><div class="sound-dot" data-dot="2"></div><button class="sound-option-btn" data-option="3"></button></div>
+                </div>
+                <div class="navigation-container">
+                    <button id="next-button" class="nav-button arrow-button" disabled>➔</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

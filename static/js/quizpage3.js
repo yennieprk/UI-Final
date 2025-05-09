@@ -113,6 +113,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     nextButton.addEventListener('click', function() {
+        // Store result in localStorage
+        let results = JSON.parse(localStorage.getItem('quizResults') || '[null,null,null,null,null,null,null,null]');
+        // All correct if all boxes match
+        const allCorrect = boxState.every((val, i) => val === selected[i].name);
+        results[6] = allCorrect;
+        localStorage.setItem('quizResults', JSON.stringify(results));
         window.location.href = '/quiz4';
     });
 

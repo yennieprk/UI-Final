@@ -94,6 +94,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 button.classList.add('incorrect');
             }
         });
+        // Store result in localStorage
+        let results = JSON.parse(localStorage.getItem('quizResults') || '[null,null,null,null,null,null,null,null]');
+        results[5] = isCorrect;
+        localStorage.setItem('quizResults', JSON.stringify(results));
         nextButton.disabled = false;
     }
 

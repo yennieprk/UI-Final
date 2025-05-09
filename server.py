@@ -27,6 +27,10 @@ def quizpage3():
 def quizpage4():
    return render_template('quizpage4.html')
 
+@app.route('/quizresult')
+def quizresult():
+   return render_template('quizresult.html')
+
 @app.route('/about')
 def aboutpage():
    return render_template('aboutpage.html')
