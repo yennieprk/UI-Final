@@ -1,12 +1,11 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<script type="text/javascript" src="{{ url_for('static', filename='js/quizpage.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/quizpage1.js') }}"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/quiz.css') }}">
 
 <div class="quiz-content">
     <div class="quiz-container">
-        <!-- Only using Type 1: Image + Name Selection -->
         <div class="question-type type-1">
             <div class="question-header">
                 <span id="question-number" class="question-number">1.</span>
@@ -26,16 +25,6 @@
                     <button id="next-button" class="nav-button arrow-button" disabled>➔</button>
                  </div>
             </div>
-        </div>
-    </div>
-
-    <!-- Quiz Complete section -->
-    <div id="quiz-complete" class="quiz-complete hidden">
-        <h2>Quiz Complete!</h2>
-        <p>Your score: <span id="final-score">0</span>/<span id="total-score">0</span></p>
-        <div class="button-container">
-            <button id="retry-button" class="nav-button">Try Again</button>
-            <a href="/" class="nav-button home-button">Go to Home</a>
         </div>
     </div>
 </div>

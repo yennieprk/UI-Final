@@ -19,6 +19,12 @@ body {
     align-items: center; /* Center items horizontally */
 }
 
+.question-type.type-2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 /* Question Header */
 .question-header {
     display: flex;
@@ -50,6 +56,73 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.matching-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
+    width: 100%;
+    min-height: 400px;
+    margin-bottom: 2rem;
+}
+
+.matching-images, .matching-names {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    align-items: center;
+    z-index: 2;
+}
+
+.matching-images {
+    margin-right: 80px;
+}
+
+.matching-names {
+    margin-left: 80px;
+}
+
+.matching-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #bbb;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+    cursor: pointer;
+    position: absolute;
+    z-index: 3;
+    transition: border-color 0.2s;
+}
+.matching-dot.selected {
+    border-color: #c41e3a;
+    background: #ffeaea;
+}
+
+#matching-canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.matching-line {
+    stroke-width: 4px;
+    stroke: #bbb;
+}
+
+.matching-line.correct {
+    stroke: #2ecc40;
+}
+
+.matching-line.incorrect {
+    stroke: #ff4136;
 }
 
 /* Instrument Image */
@@ -240,4 +313,125 @@ body {
 /* Utility */
 .hidden {
     display: none !important;
+}
+
+.description-box {
+    margin: 0 auto 2.5rem auto;
+    padding: 2.2rem 2rem;
+    max-width: 90%;
+    background: #fff;
+    border: 2px solid #333;
+    border-radius: 32px;
+    font-size: 1.6rem;
+    color: #757575;
+    text-align: center;
+    font-weight: 400;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    line-height: 1.3;
+}
+
+.dragdrop-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.dragdrop-images-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 3rem;
+    margin-bottom: 2.5rem;
+}
+
+.dragdrop-image-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 160px;
+}
+
+.dragdrop-image-box .image-bg {
+    width: 120px;
+    height: 90px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.2rem;
+    overflow: hidden;
+}
+
+.dragdrop-image-box img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+}
+
+.dragdrop-dropbox {
+    width: 130px;
+    height: 48px;
+    border: 2px dashed #bbb;
+    border-radius: 10px;
+    background: #faf8f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: #333;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    transition: border-color 0.2s, background 0.2s;
+}
+.dragdrop-dropbox.dragover {
+    border-color: #c41e3a;
+    background: #fff0f3;
+}
+
+.dragdrop-dropbox.correct {
+    background: #e0f2e9;
+    border-color: #2ecc40;
+    color: #1a5c34;
+}
+
+.dragdrop-dropbox.wrong {
+    background: #fdeded;
+    border-color: #ff4136;
+    color: #a32a29;
+}
+
+.dragdrop-cards-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+}
+
+.dragdrop-card {
+    padding: 0.7rem 1.8rem;
+    border: 1.5px solid #b0b0b0;
+    border-radius: 10px;
+    background: #fff;
+    color: #333;
+    font-size: 1.1rem;
+    font-weight: 600;
+    min-width: 120px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    cursor: grab;
+    user-select: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.dragdrop-card:active {
+    cursor: grabbing;
+    border-color: #c41e3a;
+    box-shadow: 0 4px 12px rgba(196,30,58,0.08);
+}
+.dragdrop-card.placed {
+    opacity: 0.5;
+    pointer-events: none;
 }

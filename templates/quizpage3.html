@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/quizpage3.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/quiz.css') }}">
+
+<div class="quiz-content">
+    <div class="quiz-container">
+        <div class="question-type type-3">
+            <div class="question-header">
+                <span class="question-number">7.</span>
+                <h2 class="question-text">Drag the correct name to each instrument.</h2>
+            </div>
+            <div class="dragdrop-body">
+                <div class="dragdrop-images-row">
+                    <!-- Images and drop boxes will be injected here by JS -->
+                </div>
+                <div class="dragdrop-cards-row">
+                    <!-- Draggable cards will be injected here by JS -->
+                </div>
+                <div class="navigation-container">
+                    <button id="next-button" class="nav-button arrow-button" disabled>➔</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

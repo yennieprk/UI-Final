@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/quizpage2.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/quiz.css') }}">
+
+<div class="quiz-content">
+    <div class="quiz-container">
+        <div class="question-type type-1">
+            <div class="question-header">
+                <span id="question-number" class="question-number">6.</span>
+                <h2 class="question-text">Which instrument matches this description?</h2>
+            </div>
+            <div class="question-body">
+                <div class="description-box" id="instrument-description"></div>
+                <div class="options-container name-options">
+                    <button class="option-button" data-option="1"></button>
+                    <button class="option-button" data-option="2"></button>
+                    <button class="option-button" data-option="3"></button>
+                </div>
+                 <div class="navigation-container">
+                    <button id="next-button" class="nav-button arrow-button" disabled>➔</button>
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

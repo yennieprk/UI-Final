@@ -11,9 +11,21 @@ def homepage():
 def learnpage():
    return render_template('learnpage.html')
 
-@app.route('/quiz')
-def quizpage():
-   return render_template('quizpage.html')
+@app.route('/quiz1')
+def quizpage1():
+   return render_template('quizpage1.html')
+
+@app.route('/quiz2')
+def quizpage2():
+   return render_template('quizpage2.html')
+
+@app.route('/quiz3')
+def quizpage3():
+   return render_template('quizpage3.html')
+
+@app.route('/quiz4')
+def quizpage4():
+   return render_template('quizpage4.html')
 
 @app.route('/about')
 def aboutpage():
