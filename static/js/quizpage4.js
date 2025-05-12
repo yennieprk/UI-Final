@@ -74,15 +74,25 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function playSound(soundFile, btn) {
-        if (currentAudio) {
-            currentAudio.pause();
-            document.querySelectorAll('.sound-option-btn').forEach(b => b.classList.remove('playing'));
+        if (currentAudio && currentAudio.src.endsWith(`/static/sounds/${soundFile}`)) {
+            if (currentAudio.paused) {
+                currentAudio.play();
+                btn.classList.add('playing');
+            } else {
+                currentAudio.pause();
+                btn.classList.remove('playing');
+            }
+        } else {
+            if (currentAudio) {
+                currentAudio.pause();
+                document.querySelectorAll('.sound-option-btn').forEach(b => b.classList.remove('playing'));
+            }
+            currentAudio = new Audio(`/static/sounds/${soundFile}`);
+            btn.classList.add('playing');
+            currentAudio.addEventListener('ended', () => btn.classList.remove('playing'));
+            currentAudio.addEventListener('pause', () => btn.classList.remove('playing'));
+            currentAudio.play();
         }
-        currentAudio = new Audio(`/static/sounds/${soundFile}`);
-        btn.classList.add('playing');
-        currentAudio.addEventListener('ended', () => btn.classList.remove('playing'));
-        currentAudio.addEventListener('pause', () => btn.classList.remove('playing'));
-        currentAudio.play();
     }
 
     nextButton.addEventListener('click', function() {
